@@ -32,7 +32,7 @@ export default function Footer() {
             <FiLinkedin className="w-5 h-5" />
           </a>
           <a
-            href="https://github.com/DavidSenai"
+            href="https://github.com/DavidAndradeSilva"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-blue-400 transition-colors"

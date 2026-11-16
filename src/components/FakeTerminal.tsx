@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface TermLine {
-  prompt: boolean;
+  isComment: boolean;
   text: string;
 }
 
@@ -14,10 +14,10 @@ export default function FakeTerminal() {
 
   const lines = useMemo(
     () => [
-      { prompt: true, text: t.terminal.whoamiCmd },
-      { prompt: false, text: t.terminal.whoamiOut },
-      { prompt: true, text: t.terminal.skillsCmd },
-      { prompt: false, text: t.terminal.skillsOut },
+      { isComment: true, text: `// ${t.terminal.aboutLabel}` },
+      { isComment: false, text: t.terminal.about },
+      { isComment: true, text: `// ${t.terminal.skillsLabel}` },
+      { isComment: false, text: t.terminal.skills },
     ],
     [t]
   );
@@ -34,7 +34,7 @@ export default function FakeTerminal() {
           <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
           <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <span className="ml-3 text-[8px] tracking-widest text-[#8b949e] uppercase font-mono">bash</span>
+          <span className="ml-3 text-[8px] tracking-widest text-[#8b949e] uppercase font-mono">JavaScript</span>
         </div>
         <TerminalContent key={locale} lines={lines} />
       </div>
@@ -72,9 +72,9 @@ function TerminalContent({ lines }: { lines: TermLine[] }) {
     (async () => {
       for (let i = 0; i < lines.length; i++) {
         if (cancelled) return;
-        setDisplayed((prev) => [...prev, ""]);
         await new Promise((r) => setTimeout(r, 160));
         if (cancelled) return;
+        setDisplayed((prev) => [...prev, ""]);
         await typeLine(lines[i].text, i);
       }
       if (!cancelled) setDone(true);
@@ -92,13 +92,8 @@ function TerminalContent({ lines }: { lines: TermLine[] }) {
           <span className="text-[#8b949e] mr-3 select-none w-4 text-right shrink-0">
             {i + 1}
           </span>
-          <span className="min-w-0">
-            {lines[i]?.prompt && (
-              <span className="text-[#58a6ff] select-none">$ </span>
-            )}
-            <span className={lines[i]?.prompt ? "text-[#e6edf3]" : "text-[#3fb950]"}>
-              {line || " "}
-            </span>
+          <span className={`min-w-0 ${lines[i].isComment ? "text-[#8b949e]" : "text-[#3fb950]"}`}>
+            {line || " "}
           </span>
         </div>
       ))}

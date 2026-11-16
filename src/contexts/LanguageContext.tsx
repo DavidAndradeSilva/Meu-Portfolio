@@ -7,7 +7,7 @@ type Locale = "pt-BR" | "en";
 interface Translations {
   nav: Record<string, string>;
   hero: { badge: string; tagline: string };
-  terminal: { whoamiCmd: string; whoamiOut: string; skillsCmd: string; skillsOut: string };
+  terminal: { aboutLabel: string; about: string; skillsLabel: string; skills: string };
   about: { title: string; titleSpan: string; p1: string; p2a: string; p2b: string; p3: string; highlights: string[] };
   tech: { title: string };
   projects: { title: string; titleSpan: string; view: string; code: string; empty: string; fallbackDesc: string };
@@ -44,10 +44,10 @@ const translations: Record<Locale, Translations> = {
         "Estudante de Ciência da Computação e Técnico em Desenvolvimento de Sistemas, com foco em desenvolvimento Back-End, APIs, bancos de dados e construção de soluções funcionais.",
     },
     terminal: {
-      whoamiCmd: "whoami",
-      whoamiOut: "David Andrade - Desenvolvedor Back-End",
-      skillsCmd: "cat skills.txt",
-      skillsOut: "Java, Python, MySQL, APIs REST",
+      aboutLabel: "Quem sou eu",
+      about: "David Andrade - Desenvolvedor Back-End",
+      skillsLabel: "Tecnologias que uso",
+      skills: "Java, Python, MySQL, APIs REST",
     },
     about: {
       title: "Sobre",
@@ -121,10 +121,10 @@ const translations: Record<Locale, Translations> = {
         "Computer Science student and Systems Development Technician, focused on Back-End development, APIs, databases, and building functional solutions.",
     },
     terminal: {
-      whoamiCmd: "whoami",
-      whoamiOut: "David Andrade - Back-End Developer",
-      skillsCmd: "cat skills.txt",
-      skillsOut: "Java, Python, MySQL, REST APIs",
+      aboutLabel: "Who I am",
+      about: "David Andrade - Back-End Developer",
+      skillsLabel: "Technologies I use",
+      skills: "Java, Python, MySQL, REST APIs",
     },
     about: {
       title: "About",

@@ -23,7 +23,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-20 lg:pb-0 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-blue-500/5 to-transparent pointer-events-none" />
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] pointer-events-none" />
@@ -63,7 +63,7 @@ export default function Hero() {
             className="flex flex-wrap gap-4 justify-center lg:justify-start"
           >
             <motion.a
-              href="https://github.com/DavidSenai"
+              href="https://github.com/DavidAndradeSilva"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}

@@ -12,7 +12,7 @@ const contacts = [
   },
   {
     name: "GitHub",
-    url: "https://github.com/DavidSenai",
+    url: "https://github.com/DavidAndradeSilva",
     icon: FiGithub,
   },
 ];
