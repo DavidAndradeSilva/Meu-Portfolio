@@ -16,16 +16,16 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const techs = [
-  { name: "HTML", icon: SiHtml5, color: "#e34f26" },
-  { name: "CSS", icon: SiCss, color: "#1572b6" },
-  { name: "JavaScript", icon: SiJavascript, color: "#f7df1e" },
-  { name: "React", icon: SiReact, color: "#61dafb" },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-  { name: "Python", icon: SiPython, color: "#3776ab" },
   { name: "Java", icon: SiOpenjdk, color: "#b07219" },
+  { name: "Python", icon: SiPython, color: "#3776ab" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+  { name: "MySQL", icon: SiMysql, color: "#4479a1" },
   { name: "Git", icon: SiGit, color: "#f05032" },
   { name: "GitHub", icon: SiGithub, color: "#ffffff" },
-  { name: "MySQL", icon: SiMysql, color: "#4479a1" },
+  { name: "JavaScript", icon: SiJavascript, color: "#f7df1e" },
+  { name: "React", icon: SiReact, color: "#61dafb" },
+  { name: "HTML", icon: SiHtml5, color: "#e34f26" },
+  { name: "CSS", icon: SiCss, color: "#1572b6" },
 ];
 
 export default function Technologies() {

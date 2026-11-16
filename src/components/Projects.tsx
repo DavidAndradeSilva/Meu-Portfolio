@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FiExternalLink, FiGithub, FiFolder } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiFolder, FiSmartphone } from "react-icons/fi";
 import { useLanguage } from "@/contexts/LanguageContext";
+import EstacaoAkiraIcon from "./EstacaoAkiraIcon";
 
 interface Repo {
   id: number;
@@ -11,18 +12,10 @@ interface Repo {
   description: string;
   html_url: string;
   homepage: string;
-  topics: string[];
   language: string;
 }
 
-const repoSlugs = ["EstacaoAkira", "controle-do-mes", "sistema-folha-pagamento-java", "FinanceFlow"];
-
-const repoDescriptions: Record<string, string> = {
-  "EstacaoAkira": "App mobile para monitoramento climatico aos agricultores.",
-  "controle-do-mes": "App de controle financeiro pessoal com dashboard interativo e categorizacao de gastos.",
-  "sistema-folha-pagamento-java": "Sistema de folha de pagamento completo em Java com interface desktop.",
-  "FinanceFlow": "App de controle financeiro com chatbot integrado e dashboard interativo.",
-};
+const repoSlugs = ["EstacaoAkira", "controle_do_mes", "sistema-folha-pagamento-java"];
 
 const languageColors: Record<string, string> = {
   TypeScript: "#3178c6",
@@ -32,23 +25,60 @@ const languageColors: Record<string, string> = {
   CSS: "#1572b6",
 };
 
+const fallbackRepos: Repo[] = [
+  {
+    id: 1,
+    name: "EstacaoAkira",
+    description:
+      "Projeto mobile focado em informações climáticas, utilizando React Native, Expo e APIs REST para exibir dados meteorológicos através de dashboards interativos.",
+    html_url: "https://github.com/DavidSenai/EstacaoAkira",
+    homepage: "",
+    language: "JavaScript",
+  },
+  {
+    id: 2,
+    name: "controle_do_mes",
+    description:
+      "App de controle financeiro pessoal para registrar e acompanhar os gastos do mês de forma simples e organizada, com dashboard interativo e categorização de despesas.",
+    html_url: "https://github.com/DavidSenai/controle_do_mes",
+    homepage: "",
+    language: "JavaScript",
+  },
+  {
+    id: 3,
+    name: "sistema-folha-pagamento-java",
+    description:
+      "Sistema de folha de pagamento completo em Java, com lógica de cálculo de salários, descontos e geração de relatórios.",
+    html_url: "https://github.com/DavidSenai/sistema-folha-pagamento-java",
+    homepage: "",
+    language: "Java",
+  },
+];
+
 export default function Projects() {
   const { t } = useLanguage();
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     Promise.all(
       repoSlugs.map((slug) =>
         fetch(`https://api.github.com/repos/DavidSenai/${slug}`)
-          .then((res) => (res.ok ? res.json() : null))
+          .then((res) => (res.ok ? (res.json() as Promise<Repo>) : null))
           .catch(() => null)
       )
     ).then((results) => {
-      const valid = results.filter((r): r is Repo => r !== null);
-      setRepos(valid);
+      if (cancelled) return;
+      const merged = results.map((repo, i) => repo ?? fallbackRepos[i]);
+      setRepos(merged.filter((repo): repo is Repo => repo !== undefined));
       setLoading(false);
     });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -65,16 +95,12 @@ export default function Projects() {
 
         {loading && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4].map((n) => (
+            {[1, 2, 3].map((n) => (
               <div key={n} className="glass rounded-2xl p-6 animate-pulse">
                 <div className="w-10 h-10 rounded-xl bg-white/5 mb-4" />
                 <div className="h-5 bg-white/5 rounded w-3/4 mb-3" />
                 <div className="h-4 bg-white/5 rounded w-full mb-2" />
                 <div className="h-4 bg-white/5 rounded w-2/3 mb-4" />
-                <div className="flex gap-2 mb-4">
-                  <div className="h-6 bg-white/5 rounded-full w-16" />
-                  <div className="h-6 bg-white/5 rounded-full w-20" />
-                </div>
                 <div className="flex gap-3">
                   <div className="h-10 bg-white/5 rounded-xl flex-1" />
                   <div className="h-10 bg-white/5 rounded-xl flex-1" />
@@ -100,38 +126,28 @@ export default function Projects() {
                 <div className="glass glass-hover rounded-2xl p-6 h-full flex flex-col transition-all duration-300 border border-transparent hover:border-blue-500/30 relative">
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                      <FiFolder className="w-5 h-5 text-blue-400" />
+                      {repo.name === "EstacaoAkira" ? (
+                        <EstacaoAkiraIcon className="w-5 h-5 text-blue-400" />
+                      ) : (
+                        <FiFolder className="w-5 h-5 text-blue-400" />
+                      )}
                     </div>
                   </div>
 
                   <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors capitalize">
-                    {repo.name.replace(/-/g, " ")}
+                    {repo.name.replace(/[-_]/g, " ")}
                   </h3>
 
                   <p className="text-gray-400 text-sm mb-4 flex-1 leading-relaxed">
-                    {repoDescriptions[repo.name] || repo.description || t.projects.fallbackDesc}
+                    {t.projectDesc[repo.name] || repo.description || t.projects.fallbackDesc}
                   </p>
 
-                  {repo.topics && repo.topics.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {repo.topics.slice(0, 4).map((topic) => (
-                        <span
-                          key={topic}
-                          className="px-2.5 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                        >
-                          {topic}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {repo.language && repo.name !== "controle-do-mes" && repo.name !== "sistema-folha-pagamento-java" && (
+                  {repo.language && (
                     <div className="flex items-center gap-2 mb-4">
                       <span
                         className="w-2.5 h-2.5 rounded-full"
                         style={{
-                          backgroundColor:
-                            languageColors[repo.language] || "#8b5cf6",
+                          backgroundColor: languageColors[repo.language] || "#60a5fa",
                         }}
                       />
                       <span className="text-xs text-gray-500">{repo.language}</span>
@@ -139,7 +155,7 @@ export default function Projects() {
                   )}
 
                   <div className="flex gap-3 mt-auto">
-                    {repo.homepage && (
+                    {repo.homepage && repo.name !== "EstacaoAkira" && (
                       <motion.a
                         href={repo.homepage}
                         target="_blank"
@@ -152,6 +168,25 @@ export default function Projects() {
                         {t.projects.view}
                       </motion.a>
                     )}
+                    {repo.name === "EstacaoAkira" &&
+                      (repo.homepage ? (
+                        <motion.a
+                          href={repo.homepage}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium glass glass-hover text-gray-300 rounded-xl"
+                        >
+                          <FiSmartphone className="w-4 h-4" />
+                          Mobile
+                        </motion.a>
+                      ) : (
+                        <div className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium glass glass-hover text-gray-300 rounded-xl opacity-60">
+                          <FiSmartphone className="w-4 h-4" />
+                          Mobile
+                        </div>
+                      ))}
                     <motion.a
                       href={repo.html_url}
                       target="_blank"
@@ -159,7 +194,7 @@ export default function Projects() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={`flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium glass glass-hover text-gray-300 rounded-xl ${
-                        repo.homepage ? "" : "flex-1"
+                        repo.homepage || repo.name === "EstacaoAkira" ? "" : "flex-1"
                       }`}
                     >
                       <FiGithub className="w-4 h-4" />

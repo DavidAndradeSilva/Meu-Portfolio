@@ -2,28 +2,14 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FiEye } from "react-icons/fi";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const sectionIds = ["#hero", "#journey", "#technologies", "#projects", "#contact"];
-
-function useVisitCount() {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const stored = localStorage.getItem("visitCount");
-    const current = stored ? parseInt(stored, 10) : 0;
-    const updated = current + 1;
-    localStorage.setItem("visitCount", String(updated));
-    setCount(updated);
-  }, []);
-  return count;
-}
+const sectionIds = ["#hero", "#about", "#journey", "#technologies", "#projects", "#contact"];
 
 export default function Navbar() {
   const { locale, setLocale, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("#hero");
-  const visits = useVisitCount();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -105,18 +91,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm group hover:border-blue-500/30 hover:shadow-[0_0_12px_rgba(59,130,246,0.15)] transition-all duration-300"
-            >
-              <FiEye className="w-3 h-3 text-blue-400/70 group-hover:text-blue-400 transition-colors" />
-              <span className="text-[11px] font-mono text-gray-400 group-hover:text-blue-300 transition-colors">
-                {visits} visitas
-              </span>
-            </motion.div>
-
             <button
               onClick={() => setLocale(locale === "pt-BR" ? "en" : "pt-BR")}
               className="relative px-2.5 py-1 text-[11px] font-mono font-medium rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-blue-500/30 hover:shadow-[0_0_10px_rgba(59,130,246,0.1)] transition-all duration-300 overflow-hidden group"

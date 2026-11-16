@@ -1,8 +1,25 @@
 {
   "hosting": {
     "public": "out",
-    "ignore": ["firebase.json", ".firebaserc", "**/.*"],
+    "ignore": ["firebase.json", ".firebaserc", "**/.*", "__next.*", "*.txt"],
     "cleanUrls": true,
-    "trailingSlash": true
+    "trailingSlash": true,
+    "rewrites": [
+      { "source": "**", "destination": "/index.html" }
+    ],
+    "headers": [
+      {
+        "source": "/_next/static/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "/favicon.ico",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=86400" }
+        ]
+      }
+    ]
   }
 }

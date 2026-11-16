@@ -1,17 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   FiCode,
-  FiTrendingUp,
-  FiHeart,
-  FiBookOpen,
+  FiBox,
+  FiDatabase,
+  FiShare2,
   FiMapPin,
 } from "react-icons/fi";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const highlightIcons = [FiHeart, FiTrendingUp, FiBookOpen, FiCode] as const;
-const highlightColors = ["text-red-400", "text-green-400", "text-blue-400", "text-cyan-400"];
+const highlightIcons = [FiCode, FiBox, FiShare2, FiDatabase] as const;
+const highlightColors = ["text-blue-400", "text-cyan-400", "text-blue-400", "text-cyan-400"];
 
 export default function About() {
   const { t } = useLanguage();
@@ -42,15 +43,17 @@ export default function About() {
               <div className="relative w-full h-full rounded-3xl glass flex flex-col items-center justify-center gap-4 p-8 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/5 pointer-events-none" />
                 <div className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-blue-400/50 shadow-lg shadow-blue-500/30">
-                  <img
+                  <Image
                     src="https://avatars.githubusercontent.com/u/168434046?v=4"
                     alt="David Andrade"
+                    width={112}
+                    height={112}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="text-center relative">
                   <h3 className="text-xl font-semibold text-white">David Andrade</h3>
-                  <p className="text-blue-400 font-mono text-sm mt-1">Full Stack Developer</p>
+                  <p className="text-blue-400 font-mono text-sm mt-1">{t.hero.badge}</p>
                 </div>
                 <div className="flex items-center gap-1 text-gray-500 text-xs relative">
                   <FiMapPin className="w-3 h-3" />
@@ -72,10 +75,11 @@ export default function About() {
             </p>
 
             <p className="text-gray-400 leading-relaxed">
-              {t.about.p2a} <span className="text-blue-400">React</span>,{" "}
-              <span className="text-blue-400">JavaScript</span>,{" "}
-              <span className="text-blue-400">IA</span> e{" "}
-              <span className="text-blue-400">Node.js</span>, {t.about.p2b}
+              {t.about.p2a} <span className="text-blue-400">Java</span>,{" "}
+              <span className="text-blue-400">Python</span>,{" "}
+              <span className="text-blue-400">MySQL</span>,{" "}
+              <span className="text-blue-400">Node.js</span> e{" "}
+              <span className="text-blue-400">APIs REST</span>, {t.about.p2b}
             </p>
 
             <p className="text-gray-400 leading-relaxed">

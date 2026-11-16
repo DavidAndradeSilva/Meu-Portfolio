@@ -6,22 +6,23 @@ Este projeto foi desenvolvido para apresentar minha trajetória, habilidades té
 
 ## 👨‍💻 Sobre Mim
 
-Sou estudante de Ciência da Computação e Técnico em Desenvolvimento de Sistemas, apaixonado por tecnologia e desenvolvimento de software.
+Sou David Andrade, desenvolvedor Back-End, estudante de Ciência da Computação e Técnico em Desenvolvimento de Sistemas.
 
-Tenho experiência com desenvolvimento web, integração de APIs, banco de dados e construção de aplicações modernas, sempre buscando aprender novas tecnologias e transformar ideias em soluções práticas.
+Meu foco é o desenvolvimento de APIs REST, a integração de bancos de dados e a construção de soluções funcionais.
 
 ---
 
 ## ✨ Destaques do Portfólio
 
 - Interface moderna e responsiva
-- Design futurista em tons azulados
+- Tema escuro em tons de azul com glassmorphism
 - Animações suaves e interativas
 - Experiência otimizada para desktop e mobile
-- Seção de projetos personalizada
+- Projetos carregados da API do GitHub, com dados locais quando a API está indisponível
 - Timeline de formação e jornada
-- Alternância de idioma (Português/Inglês)
-- Efeitos visuais modernos e profissionais
+- Alternância entre português e inglês com a preferência salva em `localStorage`
+- Terminal animado na abertura do portfólio
+- Navegação que destaca a seção atual durante a rolagem
 
 ---
 
@@ -32,14 +33,16 @@ Tenho experiência com desenvolvimento web, integração de APIs, banco de dados
 - CSS3
 - JavaScript
 - TypeScript
-- React
-- Next.js
-- Tailwind CSS
+- [React](https://react.dev)
+- [Next.js](https://nextjs.org) (App Router)
+- [Tailwind CSS](https://tailwindcss.com) v4
+- [Framer Motion](https://motion.dev) para as animações
+- [tsParticles](https://particles.js.org) para o fundo de partículas
 
 ### Ferramentas
 - Git
 - GitHub
-- Firebase
+- [Firebase Hosting](https://firebase.google.com/products/hosting)
 
 ### Banco de Dados
 - MySQL
@@ -49,7 +52,7 @@ Tenho experiência com desenvolvimento web, integração de APIs, banco de dados
 ## 📂 Projetos em Destaque
 
 ### 🚉 EstacaoAkira
-Projeto desenvolvido com foco em organização, usabilidade e experiência do usuário.
+Aplicativo mobile de informações climáticas desenvolvido com React Native, Expo e APIs REST.
 
 ### 💰 Controle do Mês
 Sistema para gerenciamento e acompanhamento de gastos mensais.
@@ -65,10 +68,36 @@ Este portfólio representa minha evolução como desenvolvedor e meu compromisso
 
 ---
 
+## Desenvolvimento
+
+```bash
+npm install
+npm run dev
+```
+
+Abra [http://localhost:3000](http://localhost:3000).
+
+## Validação
+
+```bash
+npm run lint
+npm run build
+```
+
+## Deploy no Firebase Hosting
+
+```bash
+npm run deploy
+```
+
+O comando executa o build estático e publica o conteúdo da pasta `out` no projeto Firebase `portfolio-david-andrade`.
+
+---
+
 ## 📫 Contato
 
-- LinkedIn: www.linkedin.com/in/david-andrade-2085b1322
-- GitHub: github.com/DavidSenai
+- [LinkedIn](https://www.linkedin.com/in/david-andrade-2085b1322/)
+- [GitHub](https://github.com/DavidSenai)
 
 ---
 

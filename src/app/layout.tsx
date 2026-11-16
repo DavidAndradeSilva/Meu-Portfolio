@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider } from "../contexts/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,23 +14,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "David Andrade | Full Stack Developer",
+  title: "David Andrade | Back-End Developer",
   description:
-    "Portfolio de David Andrade - Desenvolvedor Full Stack apaixonado por tecnologia. Transformando ideias em experiencias digitais modernas.",
+    "Portfólio de David Andrade - Desenvolvedor Back-End. Foco em APIs REST, bancos de dados, Java, Python, lógica de programação e construção de soluções funcionais.",
   keywords: [
     "David Andrade",
-    "Full Stack Developer",
-    "Desenvolvedor",
+    "Back-End Developer",
+    "Desenvolvedor Back-End",
+    "Desenvolvimento Back-End",
+    "APIs REST",
+    "Java",
+    "Python",
+    "MySQL",
+    "Banco de Dados",
     "Portfolio",
-    "React",
-    "TypeScript",
-    "Next.js",
     "Node.js",
+    "Git",
   ],
   authors: [{ name: "David Andrade" }],
   openGraph: {
-    title: "David Andrade | Full Stack Developer",
-    description: "Transformando ideias em experiencias digitais modernas.",
+    title: "David Andrade | Back-End Developer",
+    description:
+      "Desenvolvedor Back-End focado em APIs REST, bancos de dados e soluções funcionais.",
     type: "website",
     locale: "pt_BR",
     siteName: "David Andrade Portfolio",

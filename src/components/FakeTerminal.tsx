@@ -1,57 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const codeLines = [
-  { text: "function helloWorld() {", indent: false },
-  { text: 'console.log("Hello World");', indent: true },
-  { text: "}", indent: false },
-  { text: "", indent: false },
-  { text: "helloWorld();", indent: false },
-];
+interface TermLine {
+  prompt: boolean;
+  text: string;
+}
 
 export default function FakeTerminal() {
-  const [displayed, setDisplayed] = useState<string[]>([]);
-  const [typing, setTyping] = useState(false);
-  const [done, setDone] = useState(false);
+  const { locale, t } = useLanguage();
 
-  const typeLine = useCallback(
-    (full: string, lineIndex: number) =>
-      new Promise<void>((resolve) => {
-        let charIndex = 0;
-        setTyping(true);
-        const interval = setInterval(() => {
-          charIndex++;
-          setDisplayed((prev) => {
-            const updated = [...prev];
-            updated[lineIndex] = full.slice(0, charIndex);
-            return updated;
-          });
-          if (charIndex >= full.length) {
-            clearInterval(interval);
-            setTyping(false);
-            resolve();
-          }
-        }, 35);
-      }),
-    []
+  const lines = useMemo(
+    () => [
+      { prompt: true, text: t.terminal.whoamiCmd },
+      { prompt: false, text: t.terminal.whoamiOut },
+      { prompt: true, text: t.terminal.skillsCmd },
+      { prompt: false, text: t.terminal.skillsOut },
+    ],
+    [t]
   );
-
-  useEffect(() => {
-    (async () => {
-      for (let i = 0; i < codeLines.length; i++) {
-        const line = codeLines[i];
-        setDisplayed((prev) => [...prev, ""]);
-        await new Promise((r) => setTimeout(r, 200));
-        if (line.text) {
-          await typeLine(line.text, i);
-        }
-        await new Promise((r) => setTimeout(r, 100));
-      }
-      setDone(true);
-    })();
-  }, [typeLine]);
 
   return (
     <motion.div
@@ -67,26 +36,79 @@ export default function FakeTerminal() {
           <div className="w-3 h-3 rounded-full bg-[#28c840]" />
           <span className="ml-3 text-[8px] tracking-widest text-[#8b949e] uppercase font-mono">bash</span>
         </div>
-        <div className="p-5 font-mono text-sm leading-relaxed min-h-[160px]">
-          {displayed.map((line, i) => (
-            <div key={i} className="flex">
-              <span className="text-[#8b949e] mr-3 select-none w-4 text-right shrink-0">
-                {i + 1}
-              </span>
-              <span className={`text-[#e6edf3] ${codeLines[i]?.indent ? "ml-4" : ""}`}>
-                {line || " "}
-              </span>
-            </div>
-          ))}
-          {!done && (
-            <motion.span
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity }}
-              className="inline-block w-[6px] h-4 bg-[#58a6ff] align-middle ml-0.5"
-            />
-          )}
-        </div>
+        <TerminalContent key={locale} lines={lines} />
       </div>
     </motion.div>
+  );
+}
+
+function TerminalContent({ lines }: { lines: TermLine[] }) {
+  const [displayed, setDisplayed] = useState<string[]>([]);
+  const [done, setDone] = useState(false);
+
+  const typeLine = useCallback(
+    (full: string, lineIndex: number) =>
+      new Promise<void>((resolve) => {
+        let charIndex = 0;
+        const interval = setInterval(() => {
+          charIndex++;
+          setDisplayed((prev) => {
+            const updated = [...prev];
+            updated[lineIndex] = full.slice(0, charIndex);
+            return updated;
+          });
+          if (charIndex >= full.length) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 32);
+      }),
+    []
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      for (let i = 0; i < lines.length; i++) {
+        if (cancelled) return;
+        setDisplayed((prev) => [...prev, ""]);
+        await new Promise((r) => setTimeout(r, 160));
+        if (cancelled) return;
+        await typeLine(lines[i].text, i);
+      }
+      if (!cancelled) setDone(true);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lines, typeLine]);
+
+  return (
+    <div className="p-5 font-mono text-sm leading-relaxed min-h-[160px]">
+      {displayed.map((line, i) => (
+        <div key={i} className="flex">
+          <span className="text-[#8b949e] mr-3 select-none w-4 text-right shrink-0">
+            {i + 1}
+          </span>
+          <span className="min-w-0">
+            {lines[i]?.prompt && (
+              <span className="text-[#58a6ff] select-none">$ </span>
+            )}
+            <span className={lines[i]?.prompt ? "text-[#e6edf3]" : "text-[#3fb950]"}>
+              {line || " "}
+            </span>
+          </span>
+        </div>
+      ))}
+      {!done && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.6, repeat: Infinity }}
+          className="inline-block w-[6px] h-4 bg-[#58a6ff] align-middle ml-0.5"
+        />
+      )}
+    </div>
   );
 }

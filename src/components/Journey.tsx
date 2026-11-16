@@ -111,47 +111,6 @@ export default function Journey() {
             })}
           </div>
         </div>
-
-        <div className="md:hidden mt-8 space-y-6">
-          {items.map((item, i) => {
-            const Icon = item.icon;
-            return (
-              <motion.div
-                key={item.titleKey}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ y: -4 }}
-                className="group relative"
-              >
-                <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/0 via-cyan-500/0 to-blue-500/0 group-hover:from-blue-500/20 group-hover:via-cyan-500/10 group-hover:to-blue-500/20 rounded-2xl blur-md transition-all duration-500 opacity-0 group-hover:opacity-100" />
-                <div className="relative glass rounded-2xl p-5 pl-10 border border-white/5 group-hover:border-blue-500/30 transition-all duration-500">
-                  <div className="absolute left-3 top-6 w-3 h-3 rounded-full bg-blue-500 border-[3px] border-[#0a0a1a] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-semibold text-white group-hover:text-blue-400 transition-colors">
-                        {(t.journey as Record<string, string>)[item.titleKey]}
-                      </h3>
-                      <p className="text-blue-400/80 text-xs font-mono mt-1">
-                        {(t.journey as Record<string, string>)[item.institutionKey]}
-                      </p>
-                      <p className="text-gray-500 text-xs mt-1">
-                        {(t.journey as Record<string, string>)[item.periodKey]}
-                      </p>
-                      <p className="text-gray-400 text-sm mt-3 leading-relaxed">
-                        {(t.journey as Record<string, string>)[item.descKey]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

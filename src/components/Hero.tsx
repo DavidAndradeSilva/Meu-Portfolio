@@ -63,15 +63,6 @@ export default function Hero() {
             className="flex flex-wrap gap-4 justify-center lg:justify-start"
           >
             <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium rounded-xl overflow-hidden"
-            >
-              <span className="relative z-10">{t.hero.cta}</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </motion.a>
-            <motion.a
               href="https://github.com/DavidSenai"
               target="_blank"
               rel="noopener noreferrer"
